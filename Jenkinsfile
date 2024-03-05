@@ -17,8 +17,8 @@ pipeline {
     }
     stages {
         stage('Git checkout') {
-            steps {
-                git 'https://github.com/roshan0o7/vprofile-.git'
+           script {
+            git credentialsId: 'github', url: 'https://github.com/roshan0o7/vprofile-.git'
             }
         }
         stage('Build') {
