@@ -24,6 +24,7 @@ pipeline {
                 git 'https://github.com/roshan0o7/vprofile-.git'
             }
         }
+}
         stage('BUILD'){
             steps {
                 sh 'mvn clean install -DskipTests'
