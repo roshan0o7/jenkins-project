@@ -21,7 +21,7 @@ pipeline {
         stages {
         stage('Git checkout') {
             steps {
-                git 'https://gitlab.com/devops-demo2251308/demo.git'
+                git 'https://github.com/roshan0o7/vprofile-.git'
             }
         }
         stage('BUILD'){
