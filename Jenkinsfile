@@ -16,11 +16,11 @@ pipeline {
         NEXUS_LOGIN = 'nexuslogin'
     }
     stages {
-        stage('Git checkout') {
-           steps {
-                git 'https://github.com/roshan0o7/vprofile-.git'
-            }
-        }
+        // stage('Git checkout') {
+        //    steps {
+        //         git 'https://github.com/roshan0o7/vprofile-.git'
+        //     }
+        // }
         stage('Build') {
             steps {
                 sh 'mvn -s pom.xml -DskipTests install'
