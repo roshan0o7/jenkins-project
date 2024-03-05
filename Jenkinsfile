@@ -18,7 +18,12 @@ pipeline {
     }
 	
     stages{
-        
+        stages {
+        stage('Git checkout') {
+            steps {
+                git 'https://gitlab.com/devops-demo2251308/demo.git'
+            }
+        }
         stage('BUILD'){
             steps {
                 sh 'mvn clean install -DskipTests'
