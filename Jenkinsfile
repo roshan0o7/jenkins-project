@@ -18,7 +18,7 @@ pipeline {
     stages {
         stage('Git checkout') {
            script {
-            git credentialsId: 'github', url: 'https://github.com/roshan0o7/vprofile-.git'
+            git credentialsId: 'newgithub', url: 'https://github.com/roshan0o7/vprofile-.git'
             }
         }
         stage('Build') {
