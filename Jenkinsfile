@@ -36,6 +36,6 @@ pipeline {
             steps {
                 sh 'mvn -s settings.xml checkstyle:checkstyle'
             }
-        }Our job is triggered automatically after git push. And build is successful.
+        }
     }
 }
