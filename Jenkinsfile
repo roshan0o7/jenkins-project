@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools {
         maven "MAVEN3"
-        jdk "java11 "
+        jdk "java17"
     }
     environment {
         SNAP_REPO = 'vprofile-snapshot'
@@ -10,7 +10,7 @@ pipeline {
         NEXUS_PASS = 'admin'
         RELEASE_REPO = 'vprofile-release'
         CENTRAL_REPO = 'vpro-maven-central'
-        NEXUSIP = '34.230.76.186'
+        NEXUSIP = '54.91.0.108'
         NEXUSPORT = '8081'
         NEXUS_GRP_REPO = 'vpro-maven-group'
         NEXUS_LOGIN = 'nexuslogin'
@@ -34,7 +34,6 @@ pipeline {
             sh 'mvn test'
            }
         }
-        
         stage('Checkstyle Analysis'){
             steps {
                 sh 'mvn -s pom.xml checkstyle:checkstyle'
