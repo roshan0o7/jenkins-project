@@ -82,5 +82,15 @@ pipeline {
                     )
                 }
         }
+      post {
+        success {
+            // Send success notification to Slack
+            slackSend(channel: '#vprofile-project', message: "Jenkins build successful!")
+        }
+        failure {
+            // Send failure notification to Slack
+            slackSend(channel: '#vprofile-project', message: "Jenkins build failed!")
+        }
+    }
     }
 }
