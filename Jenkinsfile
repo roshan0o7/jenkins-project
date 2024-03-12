@@ -82,14 +82,12 @@ pipeline {
                     )
                 }
         }
-      post {
-        success {
-            // Send success notification to Slack
-            slackSend(channel: '#vprofile-project', message: "Jenkins build successful!")
-        }
-        failure {
-            // Send failure notification to Slack
-            slackSend(channel: '#vprofile-project', message: "Jenkins build failed!")
+    post{
+        always {
+            echo 'Slack Notifications'
+            slackSend channel: '#vprofile-project',
+                color: COLOR_MAP[currentBuild.currentResult],
+                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
         }
     }
     }
