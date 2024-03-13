@@ -83,9 +83,9 @@ pipeline {
                 }
               }
         stage('deploy') {
-            steps {
-                deploy adapter: [Tomacat9 ( url: 'http://18.207.114.243:8080/', 
-                    credentialid: 'tomcatcred' ) ],
+                steps {
+                  deploy adapters: [Tomacat9 ( url: 'http://18.207.114.243:8080/', 
+                    credentialsId: 'tomcatcred' ) ],
                     War: 'target/*.war'
                     contextpath: 'app'
             }
