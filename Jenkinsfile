@@ -10,10 +10,10 @@ pipeline {
         NEXUS_PASS = 'admin'
         RELEASE_REPO = 'vprofile-release'
         CENTRAL_REPO = 'vpro-maven-central'
-        NEXUSIP = '34.234.88.249'
+        NEXUSIP = '18.210.20.175'
         NEXUSPORT = '8081'
         NEXUS_GRP_REPO = 'vpro-maven-group'
-        NEXUS_LOGIN = 'nexuslogin'
+        NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
     }
