@@ -83,15 +83,14 @@ pipeline {
                         accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ]]) {
-                        sh 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 533267008349.dkr.ecr.ap-south-1.amazonaws.com'
+                        sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 006432355300.dkr.ecr.us-east-1.amazonaws.com'
                     }
                 }
         }
 	    stage("Build Image") {
-	             def buildNumber = env.BUILD_NUMBER
-                 def imageName = '533267008349.dkr.ecr.ap-south-1.amazonaws.com/cicd-poc'
-                 def imageTag = "webserver" // Ensure this tag is valid
-                 def fullImageName = "${imageName}:webserver"
+                    def imageName = '006432355300.dkr.ecr.us-east-1.amazonaws.com/webserverimage'
+                    def imageTag = "webserver" // Ensure this tag is valid
+                    def fullImageName = "${imageName}:webserver"
 	             sh "docker build -t ${fullImageName} ."
 	            sh "docker push ${fullImageName}"
 	    } 
