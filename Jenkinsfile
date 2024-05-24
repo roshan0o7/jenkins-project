@@ -74,6 +74,41 @@ pipeline {
                         ]
                     )
                 }
-              }
+            }
+        stage("Login to ECR") {
+                script {
+                    withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: 'AWSjenkinsuser', // Use your credential ID here
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]]) {
+                        sh 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 533267008349.dkr.ecr.ap-south-1.amazonaws.com'
+                    }
+                }
+        }
+	    stage("Build Image") {
+	             def buildNumber = env.BUILD_NUMBER
+                 def imageName = '533267008349.dkr.ecr.ap-south-1.amazonaws.com/cicd-poc'
+                 def imageTag = "webserver" // Ensure this tag is valid
+                 def fullImageName = "${imageName}:webserver"
+	             sh "docker build -t ${fullImageName} ."
+	            sh "docker push ${fullImageName}"
+	    } 
+        stage("Deploy") {
+                steps {
+                  script {
+                    def remoteUser = "ubuntu"
+                    def remoteHost = "10.0.4.154"
+                    def credentialsId = "jem.pem" // This should match the ID of your Jenkins credentials
+                    def deployScriptPath = "deploy.sh" // Relative path to the script
+                        // Retrieve the PEM file from Jenkins credentials
+                     withCredentials([file(credentialsId: credentialsId, variable: 'pemFile')]) {
+                     sh "ssh -i ${pemFile} ${remoteUser}@${remoteHost} 'bash -s' < ${env.WORKSPACE}/${deployScriptPath}"
+                     }
+                      sh "docker run -p 8080:8080 ${fullImageName}"
+                   }
+                }
+        }
     }
 }
