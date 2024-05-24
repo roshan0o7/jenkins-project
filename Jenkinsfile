@@ -56,13 +56,6 @@ pipeline {
             }
           }
         }
-       // stage('QUALITY GATE') {
-       //      steps {
-       //          timeout(time: 1, unit: 'HOURS') {
-       //         waitForQualityGate abortPipeline: true
-       //         }
-       //       }
-       //   }
        stage('UPLOAD ARTIFACT') {
                 steps {
                     nexusArtifactUploader(
@@ -82,13 +75,26 @@ pipeline {
                     )
                 }
               }
-        // stage('deploy') {
-        //         steps {
-        //           deploy adapters: [Tomacat9 ( url: 'http://18.207.114.243:8080/', 
-        //             credentialsId: 'tomcatcred' ) ],
-        //             War: 'target/*.war'
-        //             contextpath: 'app'
-        //     }
-        // }    
+        stage('Deploy to Tomcat') {
+            steps {
+                script {
+                    def remoteUser = "ubuntu"
+                    def remoteHost = "10.0.4.154"
+                    def remotePath = "/opt/tomcat/webapps"
+                    def pemFile = "jem.pem"
+                    def warFile = "vprofile-v2.war"
+                    
+                    // Copy WAR file to a temporary location
+                    sh """
+                        scp -i ${pemFile} /var/lib/jenkins/workspace/demo@2/target/${warFile} ${remoteUser}@${remoteHost}:/tmp/
+                    """
+                    
+                    // Move the WAR file to the Tomcat webapps directory using sudo
+                    sh """
+                        ssh -i ${pemFile} ${remoteUser}@${remoteHost} 'sudo mv /tmp/${warFile} ${remotePath}/'
+                    """
+                }
+            }
+        }  
     }
 }
