@@ -4,7 +4,7 @@
 AWS_REGION="us-east-1"
 
 # AWS ECR repository URL
-ECR_REPO_URL="your-ecr-repo-url"
+ECR_REPO_URL="006432355300.dkr.ecr.us-east-1.amazonaws.com/webserverimage"
 
 # Docker image tag
 IMAGE_TAG="webserver"
