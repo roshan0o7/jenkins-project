@@ -106,9 +106,8 @@ pipeline {
                      withCredentials([file(credentialsId: credentialsId, variable: 'pemFile')]) {
                      sh "ssh -i ${pemFile} ${remoteUser}@${remoteHost} 'bash -s' < ${env.WORKSPACE}/${deployScriptPath}"
                      }
-                      sh "docker run -p 8080:8080 ${fullImageName}"
                    }
-                }
+            }
         }
     }
 }
