@@ -93,6 +93,9 @@ pipeline {
                     sh """
                         ssh -i ${pemFile} ${remoteUser}@${remoteHost} 'sudo mv /tmp/${warFile} ${remotePath}/'
                     """
+                    sh """
+                        ssh -i ${pemFile} ${remoteUser}@${remoteHost} 'systemctl restart tomcat.service'
+                    """
                 }
             }
         }  
