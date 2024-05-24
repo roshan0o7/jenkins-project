@@ -75,7 +75,7 @@ pipeline {
                     )
                 }
             }
-        stage("Login to ECR") {
+        stage('Login to ECR') {
                 script {
                     withCredentials([[
                         $class: 'AmazonWebServicesCredentialsBinding',
@@ -87,14 +87,14 @@ pipeline {
                     }
                 }
         }
-	    stage("Build Image") {
+	    stage('Build Image') {
                     def imageName = '006432355300.dkr.ecr.us-east-1.amazonaws.com/webserverimage'
                     def imageTag = "webserver" 
                     def fullImageName = "${imageName}:webserver"
 	             sh "docker build -t ${fullImageName} ."
 	            sh "docker push ${fullImageName}"
 	    } 
-        stage("Deploy") {
+        stage('Deploy') {
                 steps {
                   script {
                     def remoteUser = "ubuntu"
