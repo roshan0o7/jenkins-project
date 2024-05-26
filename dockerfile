@@ -1,5 +1,5 @@
 # Use a specific tag for the base image to ensure consistency
-FROM tomcat:8.5.47-jdk8-openjdk
+FROM tomcat:latest
 
 # Set the working directory to the Tomcat webapps directory
 WORKDIR /usr/local/tomcat/webapps
