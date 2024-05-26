@@ -5,7 +5,7 @@ FROM tomcat:latest
 WORKDIR /usr/local/tomcat/webapps
 
 # Copy the WAR file into the Tomcat webapps directory
-COPY vprofile-v2.war .
+COPY target/vprofile-v2.war .
 
 # Create a new user for running Tomcat (optional but recommended for security)
 RUN groupadd -r tomcat && useradd -r -g tomcat -d /usr/local/tomcat -s /sbin/nologin tomcat
