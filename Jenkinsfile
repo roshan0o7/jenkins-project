@@ -16,10 +16,6 @@ pipeline {
         NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
-        remoteUser = 'ubuntu'
-        remoteHost = '10.0.4.154'
-        credentialsId = 'jem.pem' // This should match the ID of your Jenkins credentials
-        deployScriptPath = 'deploy.sh' // Relative path to the script
     }
     stages {
         stage('Build') {
@@ -93,22 +89,30 @@ pipeline {
                 }
             }
         }
-	    stage('Build Image') {
+      stage('Build Image') {
+		steps {
+		   script {
                     def buildNumber = env.BUILD_NUMBER
                     def imageName = '006432355300.dkr.ecr.us-east-1.amazonaws.com/webserverimage'
                     def imageTag = "${buildNumber}" // Ensure this tag is valid
                     def fullImageName = "${imageName}:${imageTag}"
 	             sh "docker build -t ${fullImageName} ."
 	            sh "docker push ${fullImageName}"
-	    } 
+	          } 
+	  }
+      }
         stage('Deploy') {
                 steps
                   script {
+			remoteUser = 'ubuntu'
+                        remoteHost = '10.0.4.154'
+                        credentialsId = 'jem.pem' // This should match the ID of your Jenkins credentials
+                        deployScriptPath = 'deploy.sh' // Relative path to the script
                     // Retrieve the PEM file from Jenkins credentials
                      withCredentials([file(credentialsId: credentialsId, variable: 'pemFile')]) {
                      sh "ssh -i ${pemFile} ${remoteUser}@${remoteHost} 'bash -s' < ${env.WORKSPACE}/${deployScriptPath}"
-                     }
-                   }
-            }
+                }
+             }
+        }
     }
 }
