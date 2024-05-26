@@ -92,9 +92,8 @@ pipeline {
       stage('Build Image') {
 		steps {
 		   script {
-                    def buildNumber = env.BUILD_NUMBER
                     def imageName = '006432355300.dkr.ecr.us-east-1.amazonaws.com/webserverimage'
-                    def imageTag = "${buildNumber}" // Ensure this tag is valid
+                    def imageTag = "webserver" // Ensure this tag is valid
                     def fullImageName = "${imageName}:${imageTag}"
 	             sh "docker build -t ${fullImageName} ."
 	            sh "docker push ${fullImageName}"
