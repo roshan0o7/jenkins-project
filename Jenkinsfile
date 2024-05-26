@@ -102,17 +102,21 @@ pipeline {
 	  }
       }
         stage('Deploy') {
-                steps
-                  script {
-			remoteUser = 'ubuntu'
-                        remoteHost = '10.0.4.154'
-                        credentialsId = 'jem.pem' // This should match the ID of your Jenkins credentials
-                        deployScriptPath = 'deploy.sh' // Relative path to the script
+            steps {
+                script {
+                    def remoteUser = "ubuntu"
+                    def remoteHost = "10.0.4.154"
+                    def credentialsId = "jem.pem" // This should match the ID of your Jenkins credentials
+                    def deployScriptPath = "Rule-engine/Frontend/deploy.sh" // Relative path to the script
+
                     // Retrieve the PEM file from Jenkins credentials
-                     withCredentials([file(credentialsId: credentialsId, variable: 'pemFile')]) {
-                     sh "ssh -i ${pemFile} ${remoteUser}@${remoteHost} 'bash -s' < ${env.WORKSPACE}/${deployScriptPath}"
+                    withCredentials([file(credentialsId: credentialsId, variable: 'pemFile')]) {
+                        sh "ssh -i ${pemFile} ${remoteUser}@${remoteHost} 'bash -s' < ${env.WORKSPACE}/${deployScriptPath}"
+                    }
+
+                    sh "docker run -p 8080:8080 ${fullImageName}"
                 }
-             }
+            }
         }
     }
 }
