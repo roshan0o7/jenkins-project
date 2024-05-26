@@ -108,9 +108,9 @@ pipeline {
                     def credentialsId = "jem.pem" // This should match the ID of your Jenkins credentials
                     def deployScriptPath = "deploy.sh" // Relative path to the script
 
-                    // Retrieve the PEM file from Jenkins credentials
-                    withCredentials([file(credentialsId: credentialsId, variable: 'pemFile')]) {
-                        sh "ssh -i ${pemFile} ${remoteUser}@${remoteHost} 'bash -s' < ${env.WORKSPACE}/${deployScriptPath}"
+                    // Use SSH agent for SSH credentials
+                    sshagent(['jem.pem']) {
+                        sh "ssh -o StrictHostKeyChecking=no ${remoteUser}@${remoteHost} 'bash -s' < ${env.WORKSPACE}/${deployScriptPath}"
                     }
                 }
             }
